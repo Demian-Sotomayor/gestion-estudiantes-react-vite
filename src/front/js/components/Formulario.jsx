@@ -1,44 +1,78 @@
+import { useState } from "react";
+import Error from "./Error";
+
 const Formulario = () => {
+
+  const [documento, setDocumento] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [estudiante, setEstudiante] = useState({});
+  const [error, setError] = useState(false);
+
+  const enviarFormulario = (e) => {
+    e.preventDefault();
+
+    // Validar campos
+    if([documento, nombre, apellido, correo, telefono].includes('')) {
+      setError(true);
+      return;
+    } else {
+      setError(false)
+    }
+
+    const obj = {
+      documento,
+      nombre,
+      apellido,
+      telefono,
+      correo
+    }
+    setEstudiante(obj);
+  }
+
   return (
     <>
       <div className="col-md-5 mt-2">
-        <form action="">
+        <form onSubmit={enviarFormulario}>
           <div className="card">
             <h5 className="card-header">Formulario</h5>
+            {error && <Error mensaje='Todos los campos son obligatorios' />}
             <div className="card-body">
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   Documento:
                 </span>
-                <input type="number" className="form-control" />
+                <input type="number" className="form-control" value={documento} onChange={(e) => setDocumento(e.target.value)} />
               </div>
 
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   Nombre:
                 </span>
-                <input type="text" className="form-control" />
+                <input type="text" className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)}  />
               </div>
 
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   Apellido:
                 </span>
-                <input type="text" className="form-control" />
+                <input type="text" className="form-control" value={apellido} onChange={(e) => setApellido(e.target.value)}  />
               </div>
 
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   Teléfono:
                 </span>
-                <input type="tel" className="form-control" />
+                <input type="tel" className="form-control" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
               </div>
 
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   Correo:
                 </span>
-                <input type="email" className="form-control" />
+                <input type="email" className="form-control" value={correo} onChange={(e) => setCorreo(e.target.value)}  />
               </div>
 
               <div className="d-grid">
