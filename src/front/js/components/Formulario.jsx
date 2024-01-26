@@ -1,14 +1,13 @@
 import { useState } from "react";
 import Error from "./Error";
 
-const Formulario = () => {
+const Formulario = ({ setEstudiantes, estudiantes }) => {
 
   const [documento, setDocumento] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
-  const [estudiante, setEstudiante] = useState({});
   const [error, setError] = useState(false);
 
   const enviarFormulario = (e) => {
@@ -22,14 +21,10 @@ const Formulario = () => {
       setError(false)
     }
 
-    const obj = {
-      documento,
-      nombre,
-      apellido,
-      telefono,
-      correo
-    }
-    setEstudiante(obj);
+    // Guardando
+    const obj = {documento, nombre, apellido, correo, telefono}
+    setEstudiantes([...estudiantes, obj])
+
   }
 
   return (
