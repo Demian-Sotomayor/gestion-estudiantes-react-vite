@@ -21,7 +21,7 @@ const ListaEstudiantes = ({ estudiante, estudiantes }) => {
                 {estudiantes && estudiantes.length ? 
                 (
                   estudiantes.map(est => (
-                    <Estudiante estudiante={est} key={est.documento} />
+                    <Estudiante estudiante={est} key={est.id} />
                   ))
                   
                 ) : (

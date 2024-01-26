@@ -22,9 +22,27 @@ const Formulario = ({ setEstudiantes, estudiantes }) => {
     }
 
     // Guardando
-    const obj = {documento, nombre, apellido, correo, telefono}
-    setEstudiantes([...estudiantes, obj])
+    const obj = {documento, nombre, apellido, correo, telefono};
+    obj.id = obtenerId();
+    setEstudiantes([...estudiantes, obj]);
+    limpiarFormulario();
+  }
 
+  const obtenerId = () => {
+    const longitud = 20;
+    const numeroAleatorio = Math.floor(Math.random() * Math.pow(36, longitud / 2)).toString(36);
+    const tiempoActual = Date.now().toString(36);
+    const id = (numeroAleatorio + tiempoActual).slice(0, longitud)
+    return id;
+  }
+
+  const limpiarFormulario = () => {
+    setDocumento('');
+    setNombre('');
+    setApellido('');
+    setTelefono('');
+    setCorreo('');
+    setError(false);
   }
 
   return (
