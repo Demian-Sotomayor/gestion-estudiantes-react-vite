@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Error from "./Error";
 
-const Formulario = ({ setEstudiantes, estudiantes }) => {
+const Formulario = ({ setListaEstudiantes, listaEstudiantes, estudiante, setEstudiante }) => {
 
   const [documento, setDocumento] = useState('');
   const [nombre, setNombre] = useState('');
@@ -18,21 +18,27 @@ const Formulario = ({ setEstudiantes, estudiantes }) => {
       setError(true);
       return;
     } else {
-      setError(false)
+      setError(false);
     }
 
     // Guardando
     const obj = {documento, nombre, apellido, correo, telefono};
-    obj.id = obtenerId();
-    setEstudiantes([...estudiantes, obj]);
+
+    if(estudiante.id) {
+      obj.id = estudiante.id;
+      const estudianteEditado = listaEstudiantes.map(est => est.id === estudiante.id ? obj : est)
+      setListaEstudiantes(estudianteEditado)
+      setEstudiante({})
+    } else {
+      obj.id = obtenerId();
+      setListaEstudiantes([...listaEstudiantes, obj]);
+    }
+
     limpiarFormulario();
   }
 
   const obtenerId = () => {
-    const longitud = 20;
-    const numeroAleatorio = Math.floor(Math.random() * Math.pow(36, longitud / 2)).toString(36);
-    const tiempoActual = Date.now().toString(36);
-    const id = (numeroAleatorio + tiempoActual).slice(0, longitud)
+    let id = (Math.random().toString(36).substring(2)+Date.now().toString(36))
     return id;
   }
 
@@ -43,7 +49,18 @@ const Formulario = ({ setEstudiantes, estudiantes }) => {
     setTelefono('');
     setCorreo('');
     setError(false);
+    setEstudiante({});
   }
+
+  useEffect(() => {
+    if(estudiante.id && estudiante.id !== '') {
+      setDocumento(estudiante.documento);
+      setNombre(estudiante.nombre);
+      setApellido(estudiante.apellido);
+      setTelefono(estudiante.telefono);
+      setCorreo(estudiante.correo);
+    }
+  }, [estudiante])
 
   return (
     <>
@@ -89,8 +106,13 @@ const Formulario = ({ setEstudiantes, estudiantes }) => {
               </div>
 
               <div className="d-grid">
-                <input type="submit" className="btn btn-success" />
-                <input type="reset" className="btn btn-secondary mt-2" />
+                
+                <button type="submit" className="btn btn-success"> 
+                  {estudiante.id ? 'Editar' : 'Registrar'}
+                </button>
+                <button type="reset" className="btn btn-secondary mt-2" onClick={limpiarFormulario}>
+                  {estudiante.id ? 'Cancelar' : 'Restablecer'}
+                </button>
               </div>
             </div>
           </div>

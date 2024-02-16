@@ -1,6 +1,6 @@
 import Estudiante from "./Estudiante";
 
-const ListaEstudiantes = ({ estudiante, estudiantes }) => {
+const ListaEstudiantes = ({ estudiante, listaEstudiantes, borrar, setEstudiante }) => {
   return (
     <>
       <div className="col-md-7 mt-2">
@@ -15,13 +15,14 @@ const ListaEstudiantes = ({ estudiante, estudiantes }) => {
                   <th scope="col">Apellido</th>
                   <th scope="col">Correo</th>
                   <th scope="col">Telefono</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
-                {estudiantes && estudiantes.length ? 
+                {listaEstudiantes && listaEstudiantes.length ? 
                 (
-                  estudiantes.map(est => (
-                    <Estudiante estudiante={est} key={est.id} />
+                  listaEstudiantes.map(est => (
+                    <Estudiante setEstudiante={setEstudiante} borrar={borrar} estudiante={est} key={est.id} />
                   ))
                   
                 ) : (
@@ -34,7 +35,6 @@ const ListaEstudiantes = ({ estudiante, estudiantes }) => {
                   </>
                 )}
 
-                <Estudiante estudiante={estudiante} />
               </tbody>
             </table>
           </div>
